@@ -3,17 +3,28 @@ clear;
 
 %   Eulers Modified Method
 
-f = @(x, y) -y + 2*(cos(x));
-h = 0.2;
-x0 = 0;
-y0 = 1;
-N = ((y0-x0)/h);
+f = @(x, y) x*y;
 
-for i = 1:N
-    y = y0 + h*( (f(x0, y0)) );
-    x = x0+h;
-    y = y0 + (h/2)*(f(x0,y0)+f(x,y));
-    y0 = y;
-    x0 = x;
+x =input("Value of x: ");
+y =input("Value of y: ");
+h =input("Value of h: ");
+X =input("Value of X: ");
+
+variables = {'x','y','fxy','yp','newx','fyp','yc'};
+k=1;
+
+while X-x>=-10^(-10)
+    fprintf("Value of y at x = %0.2f is %f\n",x,y);
+
+    fxy = f(x,y);
+    yp = y+h*fxy;
+    newx = x+h;
+    fxyp = f(newx,yp);
+    yc = y+(h/2)*(fxy+fxyp);
+    resul(k,:) = [x y fxy yp newx fxyp yc];
+    k=k+1;
+    x = x+h;
+    y = yc;
 end
-disp(y);
+disp(variables);
+disp(resul);
