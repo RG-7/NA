@@ -1,4 +1,4 @@
-%   Guass Sideal
+% Gauss-Seidel Method
 
 clear;
 clc;
@@ -10,27 +10,28 @@ initialGuess = zeros(size(b));
 tolerance = 1e-6;
 maxIterations = 1000;
 
-x = gaussSeidel(A, b, initialGuess, tolerance, maxIterations);
-disp('Solution vector:');
-disp(x);
+% Gauss-Seidel Method
+n = length(b);
+x = initialGuess;
 
-function x = gaussSeidel(A, b, initialGuess, tolerance, maxIterations)
-    n = length(b);
-    x = initialGuess;
+for k = 1:maxIterations
+    xOld = x;
 
-    for k = 1:maxIterations
-        xOld = x;
-
-        for i = 1:n
-            sigma = A(i, 1:i-1) * x(1:i-1) + A(i, i+1:end) * xOld(i+1:end);
-            x(i) = (b(i) - sigma) / A(i, i);
-        end
-
-        if norm(x - xOld, inf) < tolerance
-            disp(['Gauss-Seidel converged in ', num2str(k), ' iterations.']);
-            return;
-        end
+    for i = 1:n
+        sigma = A(i, 1:i-1) * x(1:i-1) + A(i, i+1:end) * xOld(i+1:end);
+        x(i) = (b(i) - sigma) / A(i, i);
     end
 
+    if norm(x - xOld, inf) < tolerance
+        disp(['Gauss-Seidel converged in ', num2str(k), ' iterations.']);
+        break;
+    end
+end
+
+if k == maxIterations
     disp('Gauss-Seidel did not converge within the specified number of iterations.');
 end
+
+% Display the solution vector
+disp('Solution vector:');
+disp(x);
